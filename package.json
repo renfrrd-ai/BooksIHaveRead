@@ -13,14 +13,19 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/renfrrd-ai/BooksIHaveRead/issues"
   },
   "homepage": "https://github.com/renfrrd-ai/BooksIHaveRead#readme",
   "dependencies": {
     "axios": "^1.13.5",
+    "dotenv": "^17.3.1",
+    "ejs": "^4.0.1",
     "express": "^5.2.1",
     "pg": "^8.18.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
