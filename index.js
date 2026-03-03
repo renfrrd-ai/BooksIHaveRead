@@ -2,6 +2,7 @@ import express from "express";
 import axios from "axios";
 import pg from "pg";
 import "dotenv/config";
+import slugify from "slugify";
 
 const app = express();
 const port = 3000;
@@ -23,9 +24,23 @@ try {
   console.error(err);
 }
 
+async function addCoverLink(book) {
+  let result = await axios.get(
+    `https://openlibrary.org/search.json?title=${slugify(book.title)}`,
+  );
+
+  if (result.data.numFound > 0)
+    book["link"] =
+      `https://covers.openlibrary.org/b/id/${result.data.docs[0].cover_i}-M.jpg`;
+}
+
 app.get("/", async (req, res) => {
   let result = await db.query("select * from books");
-  let context = { books: result.rows };
+  let books = result.rows;
+
+  await Promise.all(books.map((book) => addCoverLink(book)));
+
+  let context = { books };
   res.render("./index.ejs", context);
 });
 
